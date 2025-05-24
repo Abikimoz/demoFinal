@@ -1,0 +1,10 @@
+package config;
+
+import java.sql.*;
+
+public class dbConnect {
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
+                "test", "test");
+    }
+}
