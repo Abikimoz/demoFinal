@@ -1,4 +1,4 @@
-package config;
+package org.example.demofinal.config;
 
 import java.sql.*;
 
