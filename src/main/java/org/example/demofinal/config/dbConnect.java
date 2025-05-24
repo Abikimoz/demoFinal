@@ -7,4 +7,13 @@ public class dbConnect {
         return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
                 "test", "test");
     }
+    public static void closeConnection(Connection connection){
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
