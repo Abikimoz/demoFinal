@@ -6,7 +6,11 @@ import javafx.scene.layout.HBox;
 import org.example.demofinal.dao.OrgDao;
 import org.example.demofinal.models.Org;
 
+import java.sql.SQLException;
+
 public class OrgCardController {
+    private static final String DISCOUNT_FORMAT = "Скидка %d%%";
+
     @FXML private HBox cardContainer;
     @FXML private Label orgTypeNameLabel;
     @FXML private Label ceoLabel;
@@ -32,8 +36,9 @@ public class OrgCardController {
         orgTypeNameLabel.setText(org.getOrgType() + " | " + org.getName());
         ceoLabel.setText(org.getCeo());
         phoneLabel.setText(org.getPhone());
-        saleStatusLabel.setText("test");
+        rateLabel.setText("Рейтинг: " + org.getRating());
 
+        calculateSalesStatus();
     }
 
     private void setupEventHandlers() {
@@ -42,6 +47,15 @@ public class OrgCardController {
                 System.out.println("Double clicked");
             }
         });
+    }
+
+    private void calculateSalesStatus() {
+        try {
+            int discount = orgDao.calculateDiscount(org.getId());
+            saleStatusLabel.setText(String.format(DISCOUNT_FORMAT, discount));
+        } catch (SQLException e) {
+            saleStatusLabel.setText(e.getMessage());
+        }
     }
 }
 
