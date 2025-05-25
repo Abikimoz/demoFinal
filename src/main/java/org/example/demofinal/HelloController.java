@@ -3,7 +3,7 @@ package org.example.demofinal;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-import org.example.demofinal.config.dbConnect;
+import org.example.demofinal.config.DBConnect;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,7 +15,7 @@ public class HelloController {
     @FXML
     protected void onHelloButtonClick() throws SQLException {
         Connection connection = null;
-        connection = dbConnect.getConnection();
+        connection = DBConnect.getConnection();
         welcomeText.setText("Welcome to JavaFX Application!");
     }
 }

@@ -2,7 +2,7 @@ package org.example.demofinal.config;
 
 import java.sql.*;
 
-public class dbConnect {
+public class DBConnect {
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
                 "test", "test");

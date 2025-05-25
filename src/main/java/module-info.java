@@ -6,4 +6,6 @@ module org.example.demofinal {
 
     opens org.example.demofinal to javafx.fxml;
     exports org.example.demofinal;
+    exports org.example.demofinal.controllers;
+    opens org.example.demofinal.controllers to javafx.fxml;
 }

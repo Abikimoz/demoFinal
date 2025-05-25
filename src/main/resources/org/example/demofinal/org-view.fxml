@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../logo.png" />
+               </image></ImageView>
+            <Label text="Управление партнерами компании" />
+         </children>
+      </HBox>
+      <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+         <content>
+            <VBox fx:id="orgContainer" spacing="10.0" />
+         </content>
+      </ScrollPane>
+      <HBox alignment="CENTER_RIGHT" spacing="10.0">
+         <children>
+            <Button text="Добавить" />
+         </children>
+      </HBox>
+   </children>
+</VBox>
