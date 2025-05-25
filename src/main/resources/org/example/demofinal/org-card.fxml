@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<HBox fx:id="cardContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="209.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.demofinal.controllers.OrgCardController">
+<HBox fx:id="cardContainer" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="209.0" prefWidth="680.0" style="-fx-border-color: black;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.demofinal.controllers.OrgCardController">
    <children>
-      <VBox prefHeight="209.0" prefWidth="371.0">
+      <VBox prefHeight="207.0" prefWidth="400.0">
          <children>
-            <Label fx:id="orgTypeNameLabel" />
-            <Label fx:id="ceoLabel" />
-            <Label fx:id="phoneLabel" />
-            <Label fx:id="rateLabel" />
+            <Label fx:id="orgTypeNameLabel" prefHeight="50.0" prefWidth="400.0">
+               <font>
+                  <Font name="Segoe UI" size="14.0" />
+               </font></Label>
+            <Label fx:id="ceoLabel" prefHeight="50.0" prefWidth="399.0">
+               <font>
+                  <Font name="Segoe UI" size="14.0" />
+               </font></Label>
+            <Label fx:id="phoneLabel" prefHeight="50.0" prefWidth="400.0">
+               <font>
+                  <Font name="Segoe UI" size="14.0" />
+               </font></Label>
+            <Label fx:id="rateLabel" prefHeight="50.0" prefWidth="400.0">
+               <font>
+                  <Font name="Segoe UI" size="14.0" />
+               </font></Label>
          </children>
       </VBox>
       <VBox prefHeight="209.0" prefWidth="231.0">
          <children>
-            <Label fx:id="saleStatusLabel" />
+            <Label fx:id="saleStatusLabel" prefHeight="50.0" prefWidth="232.0">
+               <font>
+                  <Font name="Segoe UI" size="14.0" />
+               </font></Label>
          </children>
       </VBox>
    </children>

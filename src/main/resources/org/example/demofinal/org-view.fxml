@@ -17,7 +17,7 @@
       </HBox>
       <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
          <content>
-            <VBox fx:id="orgContainer" spacing="10.0" />
+            <VBox fx:id="orgContainer" alignment="TOP_CENTER" spacing="10.0" />
          </content>
       </ScrollPane>
       <HBox alignment="CENTER_RIGHT" spacing="10.0">

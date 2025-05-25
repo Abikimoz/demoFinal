@@ -32,6 +32,7 @@ public class OrgCardController {
         orgTypeNameLabel.setText(org.getOrgType() + " | " + org.getName());
         ceoLabel.setText(org.getCeo());
         phoneLabel.setText(org.getPhone());
+        saleStatusLabel.setText("test");
 
     }
 
