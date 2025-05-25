@@ -23,13 +23,13 @@ public class OrgDao {
                 while (rs.next()) {
                     Org org = new Org(
                             rs.getInt("id"),
-                            rs.getString("orgType"),
+                            rs.getString("organization_type"),
                             rs.getString("name"),
                             rs.getString("ceo"),
                             rs.getString("phone"),
                             rs.getString("email"),
                             rs.getString("address"),
-                            rs.getInt("raiting")
+                            rs.getInt("rating")
                     );
                     orgs.add(org);
                 }
@@ -41,6 +41,7 @@ public class OrgDao {
                 DBConnect.closeConnection(connection);
             }
         }
+        System.out.println(orgs);
         return orgs;
     }
 }

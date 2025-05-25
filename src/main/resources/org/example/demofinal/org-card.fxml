@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 
 <HBox fx:id="cardContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="209.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.demofinal.controllers.OrgCardController">
    <children>
       <VBox prefHeight="209.0" prefWidth="371.0">
          <children>
-            <Label text="orgTypeNameLabel" />
-            <Label />
-            <Label />
-            <Label />
+            <Label fx:id="orgTypeNameLabel" />
+            <Label fx:id="ceoLabel" />
+            <Label fx:id="phoneLabel" />
+            <Label fx:id="rateLabel" />
          </children>
       </VBox>
       <VBox prefHeight="209.0" prefWidth="231.0">
          <children>
-            <Label />
+            <Label fx:id="saleStatusLabel" />
          </children>
       </VBox>
    </children>

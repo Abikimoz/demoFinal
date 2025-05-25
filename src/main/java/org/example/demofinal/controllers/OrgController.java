@@ -46,7 +46,7 @@ public class OrgController {
     }
     private void addOrgCard(Org org){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("org-card.fxml"));
+            FXMLLoader loader = new FXMLLoader(MasterApp.class.getResource("org-card.fxml"));
             HBox card = loader.load();
             OrgCardController controller = loader.getController();
             controller.setOrg(org, orgDao, this);
