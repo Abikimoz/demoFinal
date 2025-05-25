@@ -38,7 +38,6 @@ public class OrgDao {
                 DBConnect.closeConnection(connection);
             }
         }
-        System.out.println(orgs);
         return orgs;
     }
 
