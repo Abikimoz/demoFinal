@@ -24,7 +24,7 @@ public class OrgController {
             orgDao = new OrgDao();
             loadOrgs();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -64,7 +64,7 @@ public class OrgController {
             FXMLLoader loader = new FXMLLoader(MasterApp.class.getResource("org-card.fxml"));
             HBox card = loader.load();
             OrgCardController controller = loader.getController();
-            controller.setOrg(org, orgDao, this);
+            controller.setOrg(org, orgDao);
             orgContainer.getChildren().add(card);
         } catch (Exception e) {
             throw new RuntimeException(e);
