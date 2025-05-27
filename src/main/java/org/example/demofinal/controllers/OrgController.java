@@ -18,6 +18,11 @@ public class OrgController {
     private ObservableList<Org> orgsData = FXCollections.observableArrayList();
     private OrgDao orgDao;
 
+    /**
+     * Инициализирует контроллер при загрузке FXML.
+     * Создает экземпляр OrgDao и загружает список организаций.
+     * Вызывается автоматически при загрузке FXML.
+     */
     @FXML
     private void initialize(){
         try {
@@ -59,6 +64,14 @@ public class OrgController {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Создает и добавляет карточку организации в интерфейс.
+     * Загружает FXML шаблон карточки, инициализирует контроллер карточки
+     * и добавляет её в контейнер.
+     * 
+     * @param org организация, для которой создается карточка
+     */
     private void addOrgCard(Org org){
         try {
             FXMLLoader loader = new FXMLLoader(MasterApp.class.getResource("org-card.fxml"));

@@ -18,23 +18,36 @@ public class OrgCardController {
     private Org org;
     private OrgDao orgDao;
 
+    /**
+     * Устанавливает данные организации и инициализирует карточку.
+     * Вызывается при создании карточки для отображения данных организации.
+     * 
+     * @param org организация, данные которой нужно отобразить
+     * @param orgDao объект для работы с базой данных
+     */
     public void setOrg(Org org, OrgDao orgDao) {
         this.org = org;
         this.orgDao = orgDao;
-
         initializeCard();
     }
 
+    /**
+     * Инициализирует карточку организации, заполняя все поля данными.
+     * Устанавливает значения для всех меток (labels) в карточке.
+     */
     private void initializeCard() {
-
         orgTypeNameLabel.setText(org.getOrgType() + " | " + org.getName());
         ceoLabel.setText(org.getCeo());
         phoneLabel.setText("+7 " + org.getPhone());
         rateLabel.setText("Рейтинг: " + org.getRating());
-
         calculateSalesStatus();
     }
 
+    /**
+     * Рассчитывает и отображает скидку для организации.
+     * Получает данные о продажах из базы данных и вычисляет размер скидки.
+     * В случае ошибки отображает сообщение об ошибке.
+     */
     private void calculateSalesStatus() {
         try {
             int discount = orgDao.calculateDiscount(org.getId());

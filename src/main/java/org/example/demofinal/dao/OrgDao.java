@@ -8,65 +8,80 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrgDao {
+    // SQL запросы
+    private static final String GET_ALL_ORGS_QUERY = "SELECT * FROM partners ORDER BY name";
+    private static final String GET_SALES_QUERY = "SELECT SUM(production_quantity) AS total FROM sales WHERE partner_id = ?";
+    
+    // Пороговые значения для скидок
+    private static final long HIGH_SALES_THRESHOLD = 300000;
+    private static final long MEDIUM_SALES_THRESHOLD = 50000;
+    private static final long LOW_SALES_THRESHOLD = 10000;
+    
+    // Процент скидок
+    private static final int HIGH_DISCOUNT = 15;
+    private static final int MEDIUM_DISCOUNT = 10;
+    private static final int LOW_DISCOUNT = 5;
+    private static final int NO_DISCOUNT = 0;
+
+    /**
+     * Получает список всех организаций из базы данных.
+     * 
+     * @return список организаций
+     * @throws SQLException при ошибке работы с базой данных
+     */
     public List<Org> getAllOrgs() throws SQLException {
         List<Org> orgs = new ArrayList<>();
-        Connection connection = null;
-        connection = DBConnect.getConnection();
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM partners ORDER BY name")) {
+        try (Connection connection = DBConnect.getConnection();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(GET_ALL_ORGS_QUERY)) {
 
             while (rs.next()) {
-                Org org = new Org(
-                        rs.getInt("id"),
-                        rs.getString("organization_type"),
-                        rs.getString("name"),
-                        rs.getString("ceo"),
-                        rs.getString("phone"),
-                        rs.getString("email"),
-                        rs.getString("address"),
-                        rs.getInt("rating")
-                );
-                orgs.add(org);
+                orgs.add(new Org(
+                    rs.getInt("id"),
+                    rs.getString("organization_type"),
+                    rs.getString("name"),
+                    rs.getString("ceo"),
+                    rs.getString("phone"),
+                    rs.getString("email"),
+                    rs.getString("address"),
+                    rs.getInt("rating")
+                ));
             }
         }
         return orgs;
     }
 
+    /**
+     * Получает общую сумму продаж для организации.
+     * 
+     * @param orgId идентификатор организации
+     * @return общая сумма продаж
+     * @throws SQLException при ошибке работы с базой данных
+     */
     public long getSalesOrg(int orgId) throws SQLException {
-        Connection connection = null;
-
-        try {
-            connection = DBConnect.getConnection();
-            try (PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT SUM(production_quantity) AS total FROM sales WHERE partner_id = ?")) {
-
-                stmt.setInt(1, orgId);
-                ResultSet rs = stmt.executeQuery();
-
-                if (rs.next()) {
-                    return rs.getLong("total");
-                }
-            }
-        } catch (SQLException e) {
-            throw e;
-        } finally {
-            if (connection != null) {
-                DBConnect.closeConnection(connection);
+        try (Connection connection = DBConnect.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(GET_SALES_QUERY)) {
+            
+            stmt.setInt(1, orgId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() ? rs.getLong("total") : 0;
             }
         }
-
-        return 0;
     }
 
+    /**
+     * Рассчитывает скидку для организации на основе суммы продаж.
+     * 
+     * @param orgId идентификатор организации
+     * @return размер скидки в процентах
+     * @throws SQLException при ошибке работы с базой данных
+     */
     public int calculateDiscount(int orgId) throws SQLException {
         long totalSales = getSalesOrg(orgId);
-        int discount;
-
-        if (totalSales > 300000) discount = 15;
-        else if (totalSales > 50000) discount = 10;
-        else if (totalSales > 10000) discount = 5;
-        else discount = 0;
-
-        return discount;
+        
+        return totalSales > HIGH_SALES_THRESHOLD ? HIGH_DISCOUNT :
+               totalSales > MEDIUM_SALES_THRESHOLD ? MEDIUM_DISCOUNT :
+               totalSales > LOW_SALES_THRESHOLD ? LOW_DISCOUNT :
+               NO_DISCOUNT;
     }
 }
