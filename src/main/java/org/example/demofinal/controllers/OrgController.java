@@ -37,9 +37,6 @@ public class OrgController {
      * 4. Создает и добавляет карточки для каждой организации
      */
     private void loadOrgs(){
-        orgContainer.getChildren().clear();
-        orgsData.clear();
-
         try {
             // Получаем список всех организаций из базы данных
             List<Org> orgs = orgDao.getAllOrgs();
