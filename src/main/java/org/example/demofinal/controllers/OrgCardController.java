@@ -9,7 +9,6 @@ import org.example.demofinal.models.Org;
 import java.sql.SQLException;
 
 public class OrgCardController {
-    private static final String DISCOUNT_FORMAT = "Скидка %d%%";
 
     @FXML private HBox cardContainer;
     @FXML private Label orgTypeNameLabel;
@@ -52,7 +51,7 @@ public class OrgCardController {
     private void calculateSalesStatus() {
         try {
             int discount = orgDao.calculateDiscount(org.getId());
-            saleStatusLabel.setText(String.format(DISCOUNT_FORMAT, discount));
+            saleStatusLabel.setText(String.format("Скидка " + discount + "%%"));
         } catch (SQLException e) {
             saleStatusLabel.setText(e.getMessage());
         }
