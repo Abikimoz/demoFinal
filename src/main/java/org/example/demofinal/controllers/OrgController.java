@@ -67,7 +67,7 @@ public class OrgController {
             controller.setOrg(org, orgDao, this);
             orgContainer.getChildren().add(card);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 }

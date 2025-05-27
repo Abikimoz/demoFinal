@@ -27,7 +27,6 @@ public class OrgCardController {
         this.orgController = orgController;
 
         initializeCard();
-        setupEventHandlers();
     }
 
     private void initializeCard() {
@@ -38,14 +37,6 @@ public class OrgCardController {
         rateLabel.setText("Рейтинг: " + org.getRating());
 
         calculateSalesStatus();
-    }
-
-    private void setupEventHandlers() {
-        cardContainer.setOnMouseClicked(event -> {
-            if(event.getClickCount() == 2) {
-                System.out.println("Double clicked");
-            }
-        });
     }
 
     private void calculateSalesStatus() {

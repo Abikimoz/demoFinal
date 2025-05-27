@@ -11,31 +11,22 @@ public class OrgDao {
     public List<Org> getAllOrgs() throws SQLException {
         List<Org> orgs = new ArrayList<>();
         Connection connection = null;
+        connection = DBConnect.getConnection();
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM partners ORDER BY name")) {
 
-        try {
-            connection = DBConnect.getConnection();
-            try (Statement stmt = connection.createStatement();
-                 ResultSet rs = stmt.executeQuery("SELECT * FROM partners ORDER BY name")) {
-
-                while (rs.next()) {
-                    Org org = new Org(
-                            rs.getInt("id"),
-                            rs.getString("organization_type"),
-                            rs.getString("name"),
-                            rs.getString("ceo"),
-                            rs.getString("phone"),
-                            rs.getString("email"),
-                            rs.getString("address"),
-                            rs.getInt("rating")
-                    );
-                    orgs.add(org);
-                }
-            }
-        } catch (SQLException e) {
-            throw e;
-        } finally {
-            if (connection != null) {
-                DBConnect.closeConnection(connection);
+            while (rs.next()) {
+                Org org = new Org(
+                        rs.getInt("id"),
+                        rs.getString("organization_type"),
+                        rs.getString("name"),
+                        rs.getString("ceo"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
+                        rs.getString("address"),
+                        rs.getInt("rating")
+                );
+                orgs.add(org);
             }
         }
         return orgs;
