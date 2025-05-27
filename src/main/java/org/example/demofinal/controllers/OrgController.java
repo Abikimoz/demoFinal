@@ -28,17 +28,35 @@ public class OrgController {
         }
     }
 
+    /**
+     * Загружает список организаций из базы данных и отображает их в интерфейсе.
+     * Метод выполняет следующие действия:
+     * 1. Получает список организаций из базы данных через DAO
+     * 2. Обновляет ObservableList orgsData новыми данными
+     * 3. Очищает контейнер с карточками организаций
+     * 4. Создает и добавляет карточки для каждой организации
+     */
     private void loadOrgs(){
         orgContainer.getChildren().clear();
         orgsData.clear();
 
         try {
+            // Получаем список всех организаций из базы данных
             List<Org> orgs = orgDao.getAllOrgs();
-            orgsData.addAll(orgs);
-
-            for (Org org : orgsData) {
-                addOrgCard(org);
-            }
+            
+            // Обновляем ObservableList новыми данными
+            // setAll() заменяет все элементы в списке на новые
+            // Это эффективнее, чем clear() + addAll()
+            orgsData.setAll(orgs);
+            
+            // Очищаем контейнер с карточками
+            orgContainer.getChildren().clear();
+            
+            // Для каждой организации в списке создаем и добавляем карточку
+            // forEach - это метод, который применяет указанную функцию к каждому элементу списка
+            // this::addOrgCard - это ссылка на метод addOrgCard текущего класса
+            // Это эквивалентно записи: for (Org org : orgsData) { addOrgCard(org); }
+            orgsData.forEach(this::addOrgCard);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
