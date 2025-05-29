@@ -9,7 +9,9 @@ import java.util.List;
 
 public class OrgDao {
     // SQL запросы
+    // выводит список всех организаций из базы данных и сортировка по наименованию
     private static final String GET_ALL_ORGS_QUERY = "SELECT * FROM partners ORDER BY name";
+    // запрос для получения общего количества продаж по партнеру и сохранение в total
     private static final String GET_SALES_QUERY = "SELECT SUM(production_quantity) AS total FROM sales WHERE partner_id = ?";
     
     // Пороговые значения для скидок
@@ -30,12 +32,15 @@ public class OrgDao {
      * @throws SQLException при ошибке работы с базой данных
      */
     public List<Org> getAllOrgs() throws SQLException {
+        // Создание списка для хранения организаций
         List<Org> orgs = new ArrayList<>();
         try (Connection connection = DBConnect.getConnection();
+             // Выполнение запроса на получение всех организаций из базы данных
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(GET_ALL_ORGS_QUERY)) {
-
+            // Итерация по результатам запроса и добавление организаций в список
             while (rs.next()) {
+                // Создание новой организации и добавление ее в список
                 orgs.add(new Org(
                     rs.getInt("id"),
                     rs.getString("organization_type"),
@@ -60,10 +65,13 @@ public class OrgDao {
      */
     public long getSalesOrg(int orgId) throws SQLException {
         try (Connection connection = DBConnect.getConnection();
+             // Подготовка запроса с использованием
              PreparedStatement stmt = connection.prepareStatement(GET_SALES_QUERY)) {
-            
+            // Выполнение запроса с передачей идентификатора организации в качестве параметра
             stmt.setInt(1, orgId);
+            // Выполнение запроса и получение результата
             try (ResultSet rs = stmt.executeQuery()) {
+                // Если есть результат, возвращаем общую сумму продаж, иначе возвращаем 0
                 return rs.next() ? rs.getLong("total") : 0;
             }
         }
