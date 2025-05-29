@@ -13,18 +13,6 @@ public class OrgDao {
     private static final String GET_ALL_ORGS_QUERY = "SELECT * FROM partners ORDER BY name";
     // запрос для получения общего количества продаж по партнеру и сохранение в total
     private static final String GET_SALES_QUERY = "SELECT SUM(production_quantity) AS total FROM sales WHERE partner_id = ?";
-    
-    // Пороговые значения для скидок
-    private static final long HIGH_SALES_THRESHOLD = 300000;
-    private static final long MEDIUM_SALES_THRESHOLD = 50000;
-    private static final long LOW_SALES_THRESHOLD = 10000;
-    
-    // Процент скидок
-    private static final int HIGH_DISCOUNT = 15;
-    private static final int MEDIUM_DISCOUNT = 10;
-    private static final int LOW_DISCOUNT = 5;
-    private static final int NO_DISCOUNT = 0;
-
     /**
      * Получает список всех организаций из базы данных.
      * 
@@ -36,7 +24,10 @@ public class OrgDao {
         List<Org> orgs = new ArrayList<>();
         try (Connection connection = DBConnect.getConnection();
              // Выполнение запроса на получение всех организаций из базы данных
+             // createStatement() создаёт "пустой" объект для запроса без параметров.
+             // Statement — это интерфейс
              Statement stmt = connection.createStatement();
+             // executeQuery() принимает готовую SQL-строку.
              ResultSet rs = stmt.executeQuery(GET_ALL_ORGS_QUERY)) {
             // Итерация по результатам запроса и добавление организаций в список
             while (rs.next()) {
@@ -55,7 +46,6 @@ public class OrgDao {
         }
         return orgs;
     }
-
     /**
      * Получает общую сумму продаж для организации.
      * 
@@ -66,8 +56,11 @@ public class OrgDao {
     public long getSalesOrg(int orgId) throws SQLException {
         try (Connection connection = DBConnect.getConnection();
              // Подготовка запроса с использованием
+             // prepareStatement() принимает SQL-строку с placeholders (?):
+             // PreparedStatement — это интерфейс
              PreparedStatement stmt = connection.prepareStatement(GET_SALES_QUERY)) {
             // Выполнение запроса с передачей идентификатора организации в качестве параметра
+            //  заменяет первый ? на значение orgId.
             stmt.setInt(1, orgId);
             // Выполнение запроса и получение результата
             try (ResultSet rs = stmt.executeQuery()) {
@@ -76,7 +69,6 @@ public class OrgDao {
             }
         }
     }
-
     /**
      * Рассчитывает скидку для организации на основе суммы продаж.
      * 
@@ -86,10 +78,10 @@ public class OrgDao {
      */
     public int calculateDiscount(int orgId) throws SQLException {
         long totalSales = getSalesOrg(orgId);
-        
-        return totalSales > HIGH_SALES_THRESHOLD ? HIGH_DISCOUNT :
-               totalSales > MEDIUM_SALES_THRESHOLD ? MEDIUM_DISCOUNT :
-               totalSales > LOW_SALES_THRESHOLD ? LOW_DISCOUNT :
-               NO_DISCOUNT;
+        // Вычисление размера скидки на основе суммы продаж
+        return totalSales > 300000 ? 15 :
+               totalSales > 50000 ? 10 :
+               totalSales > 10000 ? 5 :
+               0;
     }
 }
